@@ -54,7 +54,6 @@ Scenario: IAM-387:Configures SAML2 SSO identity provider and service provider wi
     | [insertvaliddatahere] | [insertvaliddatahere]   | [insertvaliddatahere]           | true                         | true                     |
   And the application is registered in the external IDP
   And the external IDP is configured with correct configuration
-  And the external IDP is configured with correct configuration
     | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                    | Identity Provider Entity Id     | SSO URL                                                 | Enable Assertion Encryption | Enable Response Signing | Enable Logout | Signature Algorithm | Digest Algorithm  |
     | true                  | true    | <entity id of the sp (application) created in external IDP>   | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | false                       | true                    | false         | DSA with SHA1       | MD5               |
   And the non admin user is on application login page
@@ -63,7 +62,29 @@ Scenario: IAM-387:Configures SAML2 SSO identity provider and service provider wi
   Then non admin user should not be logged in
   And SAML assertion should be failed
 
+Scenario: IAM-390:Verify authentication requests are signed when authentication request signing is enabled in brokered authentication configurations.
+  Given the admin is on create SP page
+  And the SP is configured with correct configuration
+  | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Request Signing  |
+  |[insertvaliddatahere]  | [insertvaliddatahere]   | [insertvaliddatahere]           | true                    |
+  And the application is registered in the external IDP
+  And the external IDP is configured with correct configuration
+  | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                  | Identity Provider Entity Id     | SSO URL                                                 | Enable Request Signing  | Enable Logout |
+  | true                  | true    | <entity id of the sp (application) created in external IDP> | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | true                    | false         |
+  And the non admin user is on application login page
+  When non admin user types username and password
+  Then non admin user should be logged in
 
-
-
-
+Scenario: IAM-390:Verify authentication requests are signed when authentication request signing is enabled in brokered authentication configurations.
+  Given the admin is on create SP page
+  And the SP is configured with correct configuration
+    | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Request Signing  |
+    |[insertvaliddatahere]  | [insertvaliddatahere]   | [insertvaliddatahere]           | true                    |
+  And the application is registered in the external IDP
+  And the external IDP is configured with correct configuration
+    | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                  | Identity Provider Entity Id     | SSO URL                                                 | Enable Request Signing  | Enable Logout |
+    | true                  | true    | <entity id of the sp (application) created in external IDP> | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | false                   | false         |
+  And the non admin user is on application login page
+  When non admin user types username and password
+  Then non admin user should not be logged in
+  And non admin user should not be redirected to external IDP login page
