@@ -88,3 +88,49 @@ Scenario: IAM-390:Verify authentication requests are signed when authentication 
   When non admin user types username and password
   Then non admin user should not be logged in
   And non admin user should not be redirected to external IDP login page
+
+Scenario: IAM-341:User logs into the service provider application and retrieves all mapped default claims of IDP - default profile
+  Given admin user is on create SP page
+  And registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
+  And an IDP created with given config
+  | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
+  | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
+  And non admin user is on application login page
+  When non admin user provides username and password
+  And click login button
+  Then non admin user should be logged in
+  And non admin user should get the configured claims
+
+Scenario: IAM-353:User logs into the service provider application and retrieves all mapped inherited claims of IDP - default profile
+  Given admin user is on create SP page
+  And registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
+    | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
+    | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
+  And non admin user is on application login page
+  When non admin user provides username and password
+  And click login button
+  Then non admin user should be logged in
+  And non admin user should get all the configured inherited claims
+
+Scenario: IAM-377:User logs into the service provider application and retrieves all mapped default claims of IDP - custom profile
+  Given admin user has created a custom profile
+  And admin user is on create SP page
+  And a registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
+    | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
+    | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
+  And non admin user is on application login page
+  When non admin user provides username and password
+  And click login button Then non admin user should be logged in
+  And non admin user should get configured default claims
+
+Scenario: IAM-391:User logs into the service provider application and retrieves all mapped custom claims of IDP - custom profile
+  Given admin user has created a custom profile
+  And admin user is on create SP page
+  And a registered service provider is created with custom claims and other required configurations for Inbound Authentication Configuration
+    | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
+    | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
+  And non admin user is on application login page
+  When non admin user provides username and password
+  And click login button Then non admin user should be logged in
+  And non admin user should get configured custom claims
+
