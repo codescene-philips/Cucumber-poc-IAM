@@ -16,14 +16,14 @@ Scenario: IAM-335:Admin configures SAML2 SSO identity provider with minimum requ
 
 Scenario: IAM-355:Verify the application receives SAML2 assertion receives a valid response when all the IDP configurations are enabled.
   Given the admin is on create SP page
-  And the SP is configured with correct claim configurations
+  And the SP is configured with correct claim configurations:
   | dialectURL            | Attribute profile     | Subject claim identifier  |
   | [insertvaliddatahere] | [insertvaliddatahere] | [insertvaliddatahere]     |
-  And the inbound SAML SSO configs are provided
+  And the inbound SAML SSO configs are provided:
   | Issuer                | Consumer URLs         | Default Assertion Consumer URL  | NameID format          | Certificate Alias      | Response Signing Algorithm  | Response Digest Algorithm | Enable Response Signing | Enable Signature Validation in Authentication Requests and Logout Requests | Enable Assertion Encryption  | Enable Single Logout  | Enable Attribute Profile |  Include Attributes in the Response Always | Enable Audience Restriction | Enable Recipient Validation | Enable Assertion Query Request Profile  |
   | [insertvaliddatahere] | [insertvaliddatahere] |  [insertvaliddatahere]          |  [insertvaliddatahere] |  [insertvaliddatahere] |  [insertvaliddatahere]      | [insertvaliddatahere]     | true                    | true                                                                       |  true                        | false                 | true                     | [insertvaliddatahere]                      | true                        | true                        | [insertvaliddatahere]                   |
   And the application is registered as an external IDP
-  And SP representing the external IDP is configured
+  And SP representing the external IDP is configured:
   | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                  | Identity Provider Entity Id     | SSO URL                                                 | Enable Assertion Encryption | Enable Assertion Signing  | Enable Assertion Encryption | Enable Logout | Enable Authentication Response Signing  | Signature Algorithm | Digest Algorithm  | HTTP Binding  | Attribute Consuming Service Index | Enable Force Authentication | Include Public Certificate |  Include Protocol Binding  | Include Authentication Context  | Authentication Context Class  | Authentication Context Comparison | SAML2 Web SSO User ID Location      | Additional Query Parameters |
   | true                  | true    | <entity id of the sp (application) created in external IDP> | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | true                        | true                      | true                        | false         | true                                    | DSA with SHA1       | MD5               | HTTP-Redirect |                                   | yes                         | true                       |  true                      | Yes                             | Password Protected Transport  | exact                             | User ID found in 'Name Identifier'  | paramName1=value1           |
   And non admin user is on login page
@@ -34,11 +34,11 @@ Scenario: IAM-355:Verify the application receives SAML2 assertion receives a val
 
 Scenario: IAM-368:Configures SAML2 SSO identity provider with response signing and assertion encryption configurations.
   Given the admin is on create SP page
-  And the SP is configured with correct configuration
+  And the SP is configured with correct configuration:
   | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Assertion Encryption  | Enable Response Signing  | Response Digest Algorithm                   | Response Signing Algorithm                  |
   | [insertvaliddatahere] | [insertvaliddatahere]   | [insertvaliddatahere]           | true                         | true                     | http://www.w3.org/2001/04/xmldsig­more#md5  | http://www.w3.org/2000/09/xmldsig#dsa­sha1  |
   And the application is registered in the external IDP
-  And the external IDP is configured with correct configuration
+  And the external IDP is configured with correct configuration:
   | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                    | Identity Provider Entity Id     | SSO URL                                                 | Enable Assertion Encryption | Enable Response Signing | Enable Logout | Signature Algorithm | Digest Algorithm  |
   | true                  | true    | <entity id of the sp (application) created in external IDP>   | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | true                        | true                    | false         | DSA with SHA1       | MD5               |
   And the non admin user is on application login page
@@ -49,11 +49,11 @@ Scenario: IAM-368:Configures SAML2 SSO identity provider with response signing a
 
 Scenario: IAM-387:Configures SAML2 SSO identity provider and service provider with incompatible assertion encryption configurations.
   Given the admin is on create SP page
-  And the SP is configured with correct configuration
+  And the SP is configured with correct configuration:
     | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Assertion Encryption  | Enable Response Signing  |
     | [insertvaliddatahere] | [insertvaliddatahere]   | [insertvaliddatahere]           | true                         | true                     |
   And the application is registered in the external IDP
-  And the external IDP is configured with correct configuration
+  And the external IDP is configured with correct configuration:
     | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                    | Identity Provider Entity Id     | SSO URL                                                 | Enable Assertion Encryption | Enable Response Signing | Enable Logout | Signature Algorithm | Digest Algorithm  |
     | true                  | true    | <entity id of the sp (application) created in external IDP>   | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | false                       | true                    | false         | DSA with SHA1       | MD5               |
   And the non admin user is on application login page
@@ -64,11 +64,11 @@ Scenario: IAM-387:Configures SAML2 SSO identity provider and service provider wi
 
 Scenario: IAM-390:Verify authentication requests are signed when authentication request signing is enabled in brokered authentication configurations.
   Given the admin is on create SP page
-  And the SP is configured with correct configuration
+  And the SP is configured with correct configuration:
   | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Request Signing  |
   |[insertvaliddatahere]  | [insertvaliddatahere]   | [insertvaliddatahere]           | true                    |
   And the application is registered in the external IDP
-  And the external IDP is configured with correct configuration
+  And the external IDP is configured with correct configuration:
   | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                  | Identity Provider Entity Id     | SSO URL                                                 | Enable Request Signing  | Enable Logout |
   | true                  | true    | <entity id of the sp (application) created in external IDP> | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | true                    | false         |
   And the non admin user is on application login page
@@ -77,11 +77,11 @@ Scenario: IAM-390:Verify authentication requests are signed when authentication 
 
 Scenario: IAM-390:Verify authentication requests are signed when authentication request signing is enabled in brokered authentication configurations.
   Given the admin is on create SP page
-  And the SP is configured with correct configuration
+  And the SP is configured with correct configuration:
     | Issuer                | Assertion Consumer URLs | Default Assertion Consumer URL  | Enable Request Signing  |
     |[insertvaliddatahere]  | [insertvaliddatahere]   | [insertvaliddatahere]           | true                    |
   And the application is registered in the external IDP
-  And the external IDP is configured with correct configuration
+  And the external IDP is configured with correct configuration:
     | Enable SAML2 Web SSO  | Default | Service Provider Entity Id                                  | Identity Provider Entity Id     | SSO URL                                                 | Enable Request Signing  | Enable Logout |
     | true                  | true    | <entity id of the sp (application) created in external IDP> | <entityID of the external IDP.> | <External identity provider's SAML2 Web SSO URL value>  | false                   | false         |
   And the non admin user is on application login page
@@ -92,7 +92,7 @@ Scenario: IAM-390:Verify authentication requests are signed when authentication 
 Scenario: IAM-341:User logs into the service provider application and retrieves all mapped default claims of IDP - default profile
   Given admin user is on create SP page
   And registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
-  And an IDP created with given config
+  And an IDP created with given config:
   | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
   | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
   And non admin user is on application login page
@@ -103,7 +103,7 @@ Scenario: IAM-341:User logs into the service provider application and retrieves 
 
 Scenario: IAM-353:User logs into the service provider application and retrieves all mapped inherited claims of IDP - default profile
   Given admin user is on create SP page
-  And registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
+  And registered service provider is created with claims and other required configurations for Inbound Authentication Configuration:
     | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
     | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
   And non admin user is on application login page
@@ -115,7 +115,7 @@ Scenario: IAM-353:User logs into the service provider application and retrieves 
 Scenario: IAM-377:User logs into the service provider application and retrieves all mapped default claims of IDP - custom profile
   Given admin user has created a custom profile
   And admin user is on create SP page
-  And a registered service provider is created with claims and other required configurations for Inbound Authentication Configuration
+  And a registered service provider is created with claims and other required configurations for Inbound Authentication Configuration:
     | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
     | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
   And non admin user is on application login page
@@ -126,7 +126,7 @@ Scenario: IAM-377:User logs into the service provider application and retrieves 
 Scenario: IAM-391:User logs into the service provider application and retrieves all mapped custom claims of IDP - custom profile
   Given admin user has created a custom profile
   And admin user is on create SP page
-  And a registered service provider is created with custom claims and other required configurations for Inbound Authentication Configuration
+  And a registered service provider is created with custom claims and other required configurations for Inbound Authentication Configuration:
     | IDP name              | Public certificate of third party IDP | Service Provider Entity Id  | Identity Provider Entity Id | SSO URL               |
     | [insertvaliddatahere] | [insertvaliddatahere]                 | [insertvaliddatahere]       | [insertvaliddatahere]       | [insertvaliddatahere] |
   And non admin user is on application login page
